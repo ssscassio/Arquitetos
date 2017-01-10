@@ -88,16 +88,12 @@ export default class Message extends Component {
 
     }
 
-    
-    _chooseAsk(id){
-        this.props.handlerChangeAnswer(id);
-    }
     renderButton(){
         if(this.props.withButton){
             return  <View>
                         <Hr />
                         <View style={styles.button}> 
-                             <TouchableOpacity onPress={this._chooseAsk(this.props.id)}>
+                             <TouchableOpacity onPress={()=>{this.props.handlerChangeAnswer(this.props.id)}}>
                                 <Text style={[{color: this.props.buttonFontColor}]}>{this.props.buttonText}</Text>
                             </TouchableOpacity>
                         </View>

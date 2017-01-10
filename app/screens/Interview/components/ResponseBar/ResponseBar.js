@@ -30,9 +30,16 @@ export default class ResponseBar extends Component {
         // })
     }
 
+    changeAnswer = (id) => {
+        console.log(id);
+        this.setState({
+            selected: id
+        })
+    }
+
     renderAnswers = (answers, color) => {
         return answers.map((answer) =>{    
-            return <Message style={{width: 300}}  handlerChangeAnswer={this._changeAnswer.bind(null,answer)} key={answer.id} id={answer.id} fontColor="#000" withButton={true} buttonFontColor={color} buttonText="ESCOLHER RESPOSTA" backgroundColor='#fff' noRadius="TopRight" text={answer.text}/>
+            return <Message style={{width: 300}}  handlerChangeAnswer={(id)=>{this.changeAnswer(id)}} key={answer.id} id={answer.id} fontColor="#000" withButton={true} buttonFontColor={color} buttonText="ESCOLHER RESPOSTA" backgroundColor='#fff' noRadius="TopRight" text={answer.text}/>
         })
     }
 
