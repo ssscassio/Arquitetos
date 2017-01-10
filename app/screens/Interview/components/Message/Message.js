@@ -28,7 +28,7 @@ export default class Message extends Component {
         Animated.timing(          
             this.state.fadeAnim,    
             {toValue: 1,
-            delay:500} 
+            delay:100} 
         ).start(); 
     }
 
