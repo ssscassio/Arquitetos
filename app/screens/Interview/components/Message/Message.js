@@ -25,11 +25,13 @@ export default class Message extends Component {
     }
 
     componentDidMount(){
-        Animated.timing(          
+        setTimeout(()=>{
+            Animated.timing(          
             this.state.fadeAnim,    
             {toValue: 1,
             delay:100} 
         ).start(); 
+        }, this.props.delay);
     }
 
     _selectNoBorderRadiusStyle = function(value){
