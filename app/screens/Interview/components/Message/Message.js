@@ -91,7 +91,6 @@ export default class Message extends Component {
     
     _chooseAsk(id){
         this.props.handlerChangeAnswer(id);
-
     }
     renderButton(){
         if(this.props.withButton){

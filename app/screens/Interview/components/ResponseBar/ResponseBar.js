@@ -16,22 +16,23 @@ import {
 
 import Message from '../Message';
 export default class ResponseBar extends Component {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
             selected :0,
         }
     }
 
     _changeAnswer(id){
-        this.setState({
-            selected: id
-        })
+        console.log(id);
+        // this.setState({
+        //     selected: id
+        // })
     }
 
-    renderAnswers(answers, color){
-        return answers.map(function(answer){    
-            return <Message style={{width: 300}}  handlerChangeAnswer={() => this._changeAnswer} key={answer.id} id={answer.id} fontColor="#000" withButton={true} buttonFontColor={color} buttonText="ESCOLHER RESPOSTA" backgroundColor='#fff' noRadius="TopRight" text={answer.text}/>
+    renderAnswers = (answers, color) => {
+        return answers.map((answer) =>{    
+            return <Message style={{width: 300}}  handlerChangeAnswer={this._changeAnswer.bind(null,answer)} key={answer.id} id={answer.id} fontColor="#000" withButton={true} buttonFontColor={color} buttonText="ESCOLHER RESPOSTA" backgroundColor='#fff' noRadius="TopRight" text={answer.text}/>
         })
     }
 
