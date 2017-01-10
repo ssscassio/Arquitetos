@@ -24,20 +24,12 @@ export default class InterviewScreen extends Component {
     constructor(props){
         super(props);
         this.state = {
-            answering: true,
+            answering: 2,
             actualQuestion: 0,
-            questionResponse:{
-                one: null,
-                two: null,
-                three: null,
-                four: null,
-                five: null
-            }
+            questionResponse: []
         }
-    }
-    
-    render () {
-        var  questions = [{
+
+        questions = [{
                 id: 1,
                 person: {
                     name: "Bruno Capanema",
@@ -76,19 +68,62 @@ export default class InterviewScreen extends Component {
                 categoryName: 'Vendas'
             }
         ];
+    }
+    
 
+    render () {
         return(
-            <View style={[styles.container,{flex:1}]}>
-                <Chat questions={questions} style={{flex:1}}/>
-                <ResponseBar style={{flex:1}} categoryName={questions[0].categoryName} answers={questions[0].answers} color={questions[0].color}/>
+            <View style={[styles.container]}>
+                <Chat 
+                    responses={this.state.questionResponse}
+                    actualQuestion={this.state.actualQuestion} 
+                    questions={questions} 
+                    style={{flex:1}}/>
+                {this.state.answering ==2?
+                    <ResponseBar 
+                        handlerChooseAnswer={(idQuestion,idResponse )=>{this.chooseAnswer(idQuestion,idResponse)}} 
+                        questionId={questions[this.state.actualQuestion].id} 
+                        style={{flex:1}} 
+                        categoryName={questions[this.state.actualQuestion].categoryName} 
+                        answers={questions[this.state.actualQuestion].answers} 
+                        color={questions[this.state.actualQuestion].color}/>
+                        :null}
             </View>
         );
     }
+
+    chooseAnswer =(idQuestion, idResponse) => {
+        var aux = this.state.questionResponse;
+        aux[idQuestion] = idResponse;
+        this.setState({
+            questionResponse: aux
+        });
+        if(idQuestion > this.state.actualQuestion){
+            this.setState({
+                actualQuestion : idQuestion,
+                answering: false
+            });
+            if(idQuestion< questions.length){
+                setTimeout(() =>{
+                    this.setState({
+                        answering: 1,
+                    })
+                }, 1000);
+                setTimeout(() =>{
+                    this.setState({
+                        answering: 2,
+                    })
+                }, 1000);
+            }
+        }
+    }
 }
+
 
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'column',
-        alignItems: 'center'
+        alignItems: 'center',
+        flex: 1
     }
 });

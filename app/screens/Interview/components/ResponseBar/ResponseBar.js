@@ -18,23 +18,10 @@ import Message from '../Message';
 export default class ResponseBar extends Component {
     constructor(props){
         super(props);
-        this.state = {
-            selected :0,
-        }
-    }
-
-    _changeAnswer(id){
-        console.log(id);
-        // this.setState({
-        //     selected: id
-        // })
     }
 
     changeAnswer = (id) => {
-        console.log(id);
-        this.setState({
-            selected: id
-        })
+        this.props.handlerChooseAnswer(this.props.questionId, id);
     }
 
     renderAnswers = (answers, color) => {
@@ -47,7 +34,7 @@ export default class ResponseBar extends Component {
         return(
             <View style={[this.props.style,styles.responseBar,{backgroundColor: this.props.color}]}>
                 <View  style={styles.categoryBox}>
-                    <Text style={styles.category}>{this.props.categoryName} + {this.state.selected}</Text>
+                    <Text style={styles.category}>{this.props.categoryName}</Text>
                 </View>
                 <ScrollView horizontal={true}>
                     {this.renderAnswers(this.props.answers, this.props.color)}  

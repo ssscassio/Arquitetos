@@ -20,26 +20,30 @@ export default class Question extends Component {
     constructor(props){
         super(props);
         this.state = {
-            selected : false
+            selected : false,
+            showing:0,
         }
     }
 
     _displayPhrase = function (phrases){
         return(
             phrases.map(function(text, i){
-                
-               return  <Message style={{marginBottom: 5}}key={i} fontColor="#000" backgroundColor='#E8E8E8' noRadius="TopLeft" text={text}/>
+                    return  <Message style={{marginBottom: 5}}key={i} fontColor="#000" backgroundColor='#E8E8E8' noRadius="TopLeft" text={text}/>
             })
         );
     }
 
-    _handler
+    _displayResponse = ()=>{
+            return this.props.answer.status?<Message style={{marginBottom: 20}} fontColor="#fff" backgroundColor={this.props.answer.color} noRadius="TopRight" text={this.props.answer.response}/>: null;
+    }
+    
+    
     render () {
         return(
                 <View style={[styles.container]}> 
                     <Asker person={this.props.question.person} /> 
                     {this._displayPhrase(this.props.question.phrases)}       
-                    {this.props.answer.status?<Message style={{marginBottom: 20}} fontColor="#fff" backgroundColor={this.props.answer.color} noRadius="TopRight" text={this.props.answer.response}/>: null}         
+                    {this._displayResponse()}         
                 </View>
                 
         );

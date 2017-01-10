@@ -20,17 +20,37 @@ import Question from '../Question'
 export default class Chat extends Component {
     constructor(props){
         super(props);
-        this.state = {
-            actualQuestion: 0,
-            actualAsk: 0
-        }
     }
+
+    renderQuestion =(questions, responses)=>{
+        return questions.map((question)=>{
+            console.log(responses);
+
+            status = responses[question.id] != null;
+            if(status){
+                return(
+                    question.id <= (this.props.actualQuestion+1)?
+                    <Question 
+                        answer={{status: status, response:question.answers[responses[question.id]-1].text, color: question.color}} 
+                        question={question}/>: null);
+            }else {
+                return(
+                    question.id <= (this.props.actualQuestion+1)?
+                    <Question 
+                        answer={{status: status}}
+                        question={question}/>: null);
+            }
+            
+            
+        });     
+    }
+
 
     render () {
         return(
             <ScrollView style={this.props.style}>
                 <View> 
-                    <Question answer={{status: true, response:this.props.questions[0].answers[0].text, color: this.props.questions[0].color}} question={this.props.questions[0]}/> 
+                    {this.renderQuestion(this.props.questions, this.props.responses)}
                 </View>
             </ScrollView>
                 
