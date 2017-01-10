@@ -1,4 +1,4 @@
-# OSX
+SX
 #
 .DS_Store
 
@@ -48,7 +48,9 @@ android/app/libs
 # For more information about the recommended setup visit:
 # https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Gitignore.md
 
-.babelrc
 fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots
+
+.babelrc
+

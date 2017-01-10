@@ -25,10 +25,10 @@ export default class Question extends Component {
         }
     }
 
-    _displayPhrase = function (phrases){
+    _displayPhrase = (phrases)=>{
         return(
             phrases.map(function(text, i){
-                    return  <Message style={{marginBottom: 5}}key={i} fontColor="#000" backgroundColor='#E8E8E8' noRadius="TopLeft" text={text}/>
+                    return  <Message style={{marginBottom: 5}} delay={i*1000} key={i} fontColor="#000" backgroundColor='#E8E8E8' noRadius="TopLeft" text={text}/>
             })
         );
     }
