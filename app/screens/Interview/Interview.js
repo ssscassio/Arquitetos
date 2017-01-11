@@ -12,12 +12,14 @@ import {
     Image,
     Animated,
     Easing,
-    ScrollView
+    ScrollView,
+    TouchableOpacity
 } from 'react-native';
 import Images from '../../config/images';
 import Settings from '../../config/settings';
 import ResponseBar from './components/ResponseBar';
-import Chat from './components/Chat'
+import Chat from './components/Chat';
+import {Actions} from 'react-native-router-flux';
 
 export default class InterviewScreen extends Component {
     
@@ -26,7 +28,10 @@ export default class InterviewScreen extends Component {
         this.state = {
             answering: 2,
             actualQuestion: 0,
-            questionResponse: []
+            lastQuestion:0,
+            questionResponse: [],
+            finish: false,
+            result: []
         }
 
         questions = [{
@@ -41,9 +46,11 @@ export default class InterviewScreen extends Component {
                 ],
                 answers: [
                     {id: 1,
-                    text: "Olá, Bruno aqui, blz? Quero saber uma coisa:Olá, Bruno aqui, blz? Quero saber uma coisa:Olá, Bruno aqui, blz? Quero saber uma coisa:Olá, Bruno aqui, blz? Quero saber uma coisa:Olá, Bruno aqui, blz? Quero saber uma coisa:Olá, Bruno aqui, blz? Quero saber uma coisa:Olá, Bruno aqui, blz? Quero saber uma coisa:Olá, Bruno aqui, blz? Quero saber uma coisa:Respostssa 1"},
+                    text: "Olá, Bruno aqui, blz? Quero saber uma coisa:Olá, Bruno aqui, blz? Quero saber uma coisa:Olá, Bruno aqui, blz? Quero saber uma coisa:Olá, Bruno aqui, blz? Quero saber uma coisa:Olá, Bruno aqui, blz? Quero saber uma coisa:Olá, Bruno aqui, blz? Quero saber uma coisa:Olá, Bruno aqui, blz? Quero saber uma coisa:Olá, Bruno aqui, blz? Quero saber uma coisa:Respostssa 1",
+                    points: 5},
                     {id: 2,
-                    text: "Resposta 2"},
+                    text: "Resposta 2",
+                    points: 3},
                 ],
                 color: '#0D5763',
                 categoryName: 'Precificação'
@@ -60,9 +67,11 @@ export default class InterviewScreen extends Component {
                 ],
                 answers: [
                     {id: 1,
-                    text: "Resposta 11"},
+                    text: "Resposta 11",
+                    points: 4},
                     {id: 2,
-                    text: "Resposta 12"},
+                    text: "Resposta 12",
+                    points: 3},
                 ],
                 color: '#4B9A97',
                 categoryName: 'Vendas'
@@ -76,20 +85,54 @@ export default class InterviewScreen extends Component {
             <View style={[styles.container]}>
                 <Chat 
                     responses={this.state.questionResponse}
-                    actualQuestion={this.state.actualQuestion} 
+                    actualQuestion={this.state.lastQuestion} 
                     questions={questions} 
-                    style={{flex:1}}/>
-                {this.state.answering ==2?
+                    style={{flex:4}}
+                    handlerChooseAgain={(idQuestion)=>{this.chooseAgain(idQuestion)}}/>
+                {this.state.answering ==2 && this.state.finish == false?
                     <ResponseBar 
                         handlerChooseAnswer={(idQuestion,idResponse )=>{this.chooseAnswer(idQuestion,idResponse)}} 
                         questionId={questions[this.state.actualQuestion].id} 
-                        style={{flex:1}} 
+                        style={{flex:4}} 
                         categoryName={questions[this.state.actualQuestion].categoryName} 
                         answers={questions[this.state.actualQuestion].answers} 
                         color={questions[this.state.actualQuestion].color}/>
                         :null}
+                {this.state.finish?
+                    <View style={{flex:1}}>
+                        <TouchableOpacity onPress={()=>{this.finishInterview()}}>
+                            <Text> Finalizar questionario</Text>
+                        </TouchableOpacity>
+                    
+                    </View>: null}
             </View>
         );
+    }
+
+    finishInterview = ()=>{
+        var aux =[];
+        for(var i =0; i< questions.length; i++){
+            aux.push({
+                color: questions[i].color,
+                id: questions[i].id,
+                categoryName: questions[i].categoryName,
+                points: questions[i].answers[this.state.questionResponse[i+1] -1].points
+            })
+        }
+        this.setState({
+            result: aux
+        });
+    }
+
+    chooseAgain = (idQuestion) => {
+        var aux = this.state.questionResponse;
+        aux[idQuestion] = null
+        this.setState({
+            actualQuestion : idQuestion -1,
+            answering: 2,
+            finish: false,
+            questionResponse: aux
+        });
     }
 
     chooseAnswer =(idQuestion, idResponse) => {
@@ -101,6 +144,7 @@ export default class InterviewScreen extends Component {
         if(idQuestion > this.state.actualQuestion){
             this.setState({
                 actualQuestion : idQuestion,
+                lastQuestion : idQuestion,
                 answering: false
             });
             if(idQuestion< questions.length){
@@ -114,6 +158,10 @@ export default class InterviewScreen extends Component {
                         answering: 2,
                     })
                 }, 1000);
+            }else{
+                this.setState({
+                    finish :true
+                })
             }
         }
     }

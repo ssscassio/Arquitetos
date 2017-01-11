@@ -26,7 +26,7 @@ export default class ResponseBar extends Component {
 
     renderAnswers = (answers, color) => {
         return answers.map((answer) =>{    
-            return <Message style={{width: 300}}  handlerChangeAnswer={(id)=>{this.changeAnswer(id)}} key={answer.id} id={answer.id} fontColor="#000" withButton={true} buttonFontColor={color} buttonText="ESCOLHER RESPOSTA" backgroundColor='#fff' noRadius="TopRight" text={answer.text}/>
+            return <Message key={answer.id}style={{width: 300}}  handlerChangeAnswer={(id)=>{this.changeAnswer(id)}} key={answer.id} id={answer.id} fontColor="#000" withButton={true} buttonFontColor={color} buttonText="ESCOLHER RESPOSTA" backgroundColor='#fff' noRadius="TopRight" text={answer.text}/>
         })
     }
 

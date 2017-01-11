@@ -25,11 +25,15 @@ export default class Message extends Component {
     }
 
     componentDidMount(){
+        fade = 100;
+        if(this.props.fadeTime){
+            fade = this.props.fadeTime
+        }
         setTimeout(()=>{
             Animated.timing(          
             this.state.fadeAnim,    
             {toValue: 1,
-            delay:100} 
+            delay:fade} 
         ).start(); 
         }, this.props.delay);
     }

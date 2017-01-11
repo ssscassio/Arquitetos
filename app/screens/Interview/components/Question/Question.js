@@ -12,6 +12,7 @@ import {
     Image,
     Animated,
     Easing,
+    TouchableOpacity
 } from 'react-native';
 import Message from '../Message';
 import Asker from '../Asker';
@@ -34,7 +35,14 @@ export default class Question extends Component {
     }
 
     _displayResponse = ()=>{
-            return this.props.answer.status?<Message style={{marginBottom: 20}} fontColor="#fff" backgroundColor={this.props.answer.color} noRadius="TopRight" text={this.props.answer.response}/>: null;
+            return this.props.answer.status?(<View><Message 
+                fadeTime={100} 
+                style={{marginBottom: 20}} fontColor="#fff" 
+                backgroundColor={this.props.answer.color}
+                noRadius="TopRight" 
+                text={this.props.answer.response}/>
+                    <Text onPress={()=>{this.props.handlerChooseAgain(this.props.question.id)}}style={styles.mudarResposta}>MUDAR RESPOSTA</Text>
+                </View>): null;
     }
     
     
@@ -53,5 +61,10 @@ export default class Question extends Component {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'column'
+    },
+    mudarResposta: {
+        textAlign: "right",
+        color: "#aaa",
+        paddingRight: 20,
     }
 });

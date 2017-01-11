@@ -14,6 +14,7 @@ import {
     Easing,
     ScrollView
 } from 'react-native';
+var RCTUIManager = require('NativeModules').UIManager;
 
 import Question from '../Question'
 
@@ -24,19 +25,20 @@ export default class Chat extends Component {
 
     renderQuestion =(questions, responses)=>{
         return questions.map((question)=>{
-            console.log(responses);
-
             status = responses[question.id] != null;
             if(status){
                 return(
                     question.id <= (this.props.actualQuestion+1)?
-                    <Question 
-                        answer={{status: status, response:question.answers[responses[question.id]-1].text, color: question.color}} 
+                    <Question
+                        key={question.id}
+                        handlerChooseAgain={(idQuestion)=>{this.props.handlerChooseAgain(idQuestion)}}
+                        answer={{id:question.answers[responses[question.id]-1].id,status: status, response:question.answers[responses[question.id]-1].text, color: question.color}} 
                         question={question}/>: null);
             }else {
                 return(
                     question.id <= (this.props.actualQuestion+1)?
-                    <Question 
+                    <Question
+                        key={question.id}
                         answer={{status: status}}
                         question={question}/>: null);
             }
@@ -48,11 +50,13 @@ export default class Chat extends Component {
 
     render () {
         return(
-            <ScrollView style={this.props.style}>
-                <View> 
-                    {this.renderQuestion(this.props.questions, this.props.responses)}
-                </View>
-            </ScrollView>
+            <View style={this.props.style}>
+                <ScrollView ref = {component=>{this._scrollView=component;}} >
+                    <View> 
+                        {this.renderQuestion(this.props.questions, this.props.responses)}
+                    </View>
+                </ScrollView>
+            </View>
                 
         );
     }
