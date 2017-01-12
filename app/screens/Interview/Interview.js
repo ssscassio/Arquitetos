@@ -20,6 +20,7 @@ import Settings from '../../config/settings';
 import ResponseBar from './components/ResponseBar';
 import Chat from './components/Chat';
 import {Actions} from 'react-native-router-flux';
+import Router from '../../router';
 
 export default class InterviewScreen extends Component {
     
@@ -109,6 +110,10 @@ export default class InterviewScreen extends Component {
         );
     }
 
+    _goToInterviewResponse = (result) => {
+        this.props.navigator.push(Router.getRoute('interviewResponse', result));
+    }
+
     finishInterview = ()=>{
         var aux =[];
         for(var i =0; i< questions.length; i++){
@@ -122,6 +127,8 @@ export default class InterviewScreen extends Component {
         this.setState({
             result: aux
         });
+        console.log({resultInterview: this.state.result});
+        this._goToInterviewResponse({resultInterview: this.state.result});
     }
 
     chooseAgain = (idQuestion) => {

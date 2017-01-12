@@ -9,9 +9,11 @@ import {
 
 import LoginScreen from './screens/Login';
 import InterviewScreen from './screens/Interview'
+import InterviewResponseScreen from './screens/InterviewResponse'
 const Router = createRouter(() => ({
     login: () => LoginScreen,
-    interview: () => InterviewScreen
+    interview: () => InterviewScreen,
+    interviewResponse: () => InterviewResponseScreen
 }));
 
 export default Router;
